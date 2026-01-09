@@ -1,0 +1,48 @@
+1. Partie FRONT-END (Amin & Shamal)
+Objectif : Créer tous les éléments visuels et les rendre "beaux" sans se soucier de comment les données sont enregistrées.
+
+Structure Générale (Le décor)
+La Grande Barre de Titre : Créer le bandeau tout en haut avec le nom "OmniHub" et le slogan.
+
+Le Tableau de Bord (3 colonnes) : Organiser la page en trois grandes zones : une pour les Tâches (To-Do), une pour les Contacts, une pour les Notes.
+
+Les Barres de Recherche : Placer une loupe et un champ de texte en haut de chaque section.
+
+Les Boutons (Les déclencheurs)
+Boutons d'ajout : Créer les boutons "Ajouter une tâche", "Ajouter une note", "Ajouter un contact".
+
+Boutons de nettoyage : Créer les boutons "Tout supprimer" pour les tâches et les notes.
+
+Boutons de validation : Créer les paires de boutons "Enregistrer / Annuler" et "Modifier / Supprimer".
+
+Les Composants (Les éléments)
+La Ligne "Contact" : Créer une petite carte qui affiche le Nom et le Prénom avec les boutons "Modifier" et "Supprimer".
+
+La Ligne "Note" : Créer une ligne simple avec juste le titre de la note et les boutons d'action.
+
+La Ligne "Tâche" : Créer une ligne avec une case à cocher, le texte de la tâche et les boutons d'action.
+
+Les Menus de saisie (Modales) : * Créer la fenêtre qui s'affiche au-dessus du reste pour ajouter un Contact (Nom, Prénom, Numéro, Email).
+
+Créer la fenêtre pour ajouter une Note (Titre et grand rectangle pour le texte).
+
+Le Design "Flou" : Appliquer l'effet de flou sur le fond quand une fenêtre est ouverte.
+
+2. Partie BACK-END & LOGIQUE (Rayhan)
+Objectif : Faire en sorte que l'application "réfléchisse" et se souvienne des informations.
+
+Le Serveur (Le cerveau)
+Mise en place : Installer le serveur et s'assurer qu'il peut recevoir des messages du Front.
+
+Création des routes : Créer les "adresses" que le Front va appeler (ex: une adresse pour demander la liste des contacts, une autre pour en supprimer un).
+
+Stockage (Base de données) : Créer les fichiers (JSON) qui vont garder les informations même si on éteint l'ordinateur.
+
+La Logique (Les câbles)
+Connexion Front-Back : Utiliser ton outil (Axios) pour relier les boutons créés par tes coéquipiers à tes routes sur le serveur.
+
+Gestion des fenêtres : Coder la logique qui fait apparaître ou disparaître les formulaires (le fameux clic qui ouvre la fenêtre).
+
+Moteur de recherche : Créer le filtre qui fait que lorsqu'on tape un nom dans la barre de recherche, la liste se réduit automatiquement.
+
+Validation : Vérifier que l'utilisateur ne laisse pas de champs vides ou n'écrit pas n'importe quoi (ex: un numéro de téléphone sans chiffres).
