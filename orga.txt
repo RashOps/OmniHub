@@ -28,6 +28,8 @@ Créer la fenêtre pour ajouter une Note (Titre et grand rectangle pour le texte
 
 Le Design "Flou" : Appliquer l'effet de flou sur le fond quand une fenêtre est ouverte.
 
+NB : Créer les boutons / les zones de saisis / zones de recherche avec des Props
+
 2. Partie BACK-END & LOGIQUE (Rayhan)
 Objectif : Faire en sorte que l'application "réfléchisse" et se souvienne des informations.
 
