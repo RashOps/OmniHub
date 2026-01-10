@@ -3,6 +3,12 @@
     "id": "101",
     "titre": "Idée Projet OmniHub",
     "contenu": "Penser à utiliser le flou pour les modales.",
-    "date": "2026-01-09"
+    "createdAt": "2026-01-09"
+  },
+  {
+    "id": "209",
+    "titre": "Test POST API",
+    "contenu": "Note 1.",
+    "createdAt": "2026-01-09"
   }
 ]
