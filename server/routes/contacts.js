@@ -1,4 +1,5 @@
 const express = require("express")
+const Joi = require('joi')
 const router = express.Router()
 const { readFile, writeFile } = require("../utils/fileHandler")
 const { v4: uuidv4 } = require("uuid")
@@ -7,7 +8,7 @@ const { v4: uuidv4 } = require("uuid")
 router.get("/api/contacts", async (req, res) => {
     try {
         const data = await readFile("contacts.json")
-        res.json(data); // On attend d'avoir les data avant d'envoyer
+        res.json(data) // On attend d'avoir les data avant d'envoyer
     } catch (error) {
         res.status(500).json({ message: "Erreur de lecture" })
     }
@@ -59,15 +60,15 @@ router.put("/api/contacts/:id", async (req, res) => {
                 // L'ID reste inchangé car il est déjà dans 'contact'
                 return { ...contact, ...updatedFields };
             }
-            return contact; // On ne touche pas aux autres
+            return contact // On ne touche pas aux autres
         });
 
         // 4. Sauvegarder dans le fichier JSON
-        await writeFile("contacts.json", updatedContacts);
+        await writeFile("contacts.json", updatedContacts)
 
         // 5. Trouver le contact modifié pour le renvoyer (optionnel mais recommandé)
-        const finalContact = updatedContacts.find(c => c.id === id);
-        res.json(finalContact);
+        const finalContact = updatedContacts.find(c => c.id === id)
+        res.json(finalContact)
 
     } catch (error) {
         console.error("Erreur PUT contacts:", error);
@@ -84,7 +85,8 @@ router.delete("/api/contacts/:id", async (req, res) => {
         const filteredContacts = contacts.filter(c => c.id !== id)
 
         await writeFile("contacts.json", filteredContacts);
-        res.status(204).send("Contact supprimé"); // 204 = Succès, mais rien à renvoyer
+        res.status(204).send("Contact supprimé") // 204 = Succès, mais rien à renvoyer
+
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la suppression" })
     }
