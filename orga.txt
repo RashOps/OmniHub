@@ -1,50 +1,67 @@
-1. Partie FRONT-END (Amin & Shamal)
-Objectif : Créer tous les éléments visuels et les rendre "beaux" sans se soucier de comment les données sont enregistrées.
+📑 DOCUMENT D'ORGANISATION : OMNIHUB V2
+1. Partie FRONT-END (Amin)
 
-Structure Générale (Le décor)
-La Grande Barre de Titre : Créer le bandeau tout en haut avec le nom "OmniHub" et le slogan.
+Objectif : Concevoir une interface utilisateur (UI) moderne, réactive et capable d'afficher des données complexes (priorités, dates, etc.). 
 
-Le Tableau de Bord (3 colonnes) : Organiser la page en trois grandes zones : une pour les Tâches (To-Do), une pour les Contacts, une pour les Notes.
+A. Structure Générale & Layout
 
-Les Barres de Recherche : Placer une loupe et un champ de texte en haut de chaque section.
+La Grande Barre de Titre (Navbar) : Créer un bandeau fixe en haut avec le nom "OmniHub", un slogan dynamique et une horloge en temps réel. 
 
-Les Boutons (Les déclencheurs)
-Boutons d'ajout : Créer les boutons "Ajouter une tâche", "Ajouter une note", "Ajouter un contact".
 
-Boutons de nettoyage : Créer les boutons "Tout supprimer" pour les tâches et les notes.
+Le Tableau de Bord (Dashboard) : Utiliser une grille à 3 colonnes (CSS Grid) pour organiser les zones : To-Do (Tâches), Contacts, et Notes. 
 
-Boutons de validation : Créer les paires de boutons "Enregistrer / Annuler" et "Modifier / Supprimer".
 
-Les Composants (Les éléments)
-La Ligne "Contact" : Créer une petite carte qui affiche le Nom et le Prénom avec les boutons "Modifier" et "Supprimer".
+Les Barres de Recherche : Placer un champ de texte avec une icône de loupe en haut de chaque colonne pour filtrer les données en temps réel. 
 
-La Ligne "Note" : Créer une ligne simple avec juste le titre de la note et les boutons d'action.
 
-La Ligne "Tâche" : Créer une ligne avec une case à cocher, le texte de la tâche et les boutons d'action.
+Le Design "Flou" (Glassmorphism) : Appliquer un effet de flou d'arrière-plan (backdrop-filter: blur) derrière les fenêtres modales pour un aspect premium. 
 
-Les Menus de saisie (Modales) : * Créer la fenêtre qui s'affiche au-dessus du reste pour ajouter un Contact (Nom, Prénom, Numéro, Email).
+B. Les Composants Atomiques (Réutilisables) 
 
-Créer la fenêtre pour ajouter une Note (Titre et grand rectangle pour le texte).
+Ligne "Contact" : Carte affichant les initiales, le Nom, le Prénom et le Numéro. Prévoir des boutons iconographiques pour "Modifier" et "Supprimer". 
 
-Le Design "Flou" : Appliquer l'effet de flou sur le fond quand une fenêtre est ouverte.
+Ligne "Note" : Affichage du titre en gras avec un aperçu du contenu. Inclure la date de dernière modification. 
 
-NB : Créer les boutons / les zones de saisis / zones de recherche avec des Props
 
-2. Partie BACK-END & LOGIQUE (Rayhan)
-Objectif : Faire en sorte que l'application "réfléchisse" et se souvienne des informations.
+Ligne "Tâche" : Inclure une checkbox, le texte de la tâche et une pastille de couleur indiquant la priorité (Rouge: High, Jaune: Medium, Vert: Low). 
 
-Le Serveur (Le cerveau)
-Mise en place : Installer le serveur et s'assurer qu'il peut recevoir des messages du Front.
+C. Menus de Saisie & Modales 
 
-Création des routes : Créer les "adresses" que le Front va appeler (ex: une adresse pour demander la liste des contacts, une autre pour en supprimer un).
 
-Stockage (Base de données) : Créer les fichiers (JSON) qui vont garder les informations même si on éteint l'ordinateur.
+Formulaire Contact : Champs pour Nom, Prénom, Numéro (format 10 chiffres) et Email. 
 
-La Logique (Les câbles)
-Connexion Front-Back : Utiliser ton outil (Axios) pour relier les boutons créés par tes coéquipiers à tes routes sur le serveur.
 
-Gestion des fenêtres : Coder la logique qui fait apparaître ou disparaître les formulaires (le fameux clic qui ouvre la fenêtre).
+Formulaire Note : Champ Titre et une zone de texte large (Textarea). 
 
-Moteur de recherche : Créer le filtre qui fait que lorsqu'on tape un nom dans la barre de recherche, la liste se réduit automatiquement.
 
-Validation : Vérifier que l'utilisateur ne laisse pas de champs vides ou n'écrit pas n'importe quoi (ex: un numéro de téléphone sans chiffres).
+Boutons d'Action : Paires de boutons standardisées "Enregistrer / Annuler" et "Confirmer / Supprimer". 
+
+2. Partie BACK-END & INTÉGRATION (Rayhan)
+
+Objectif : Assurer la persistance des données, la sécurité des échanges et le lien entre l'interface et le serveur. 
+
+A. Le Serveur & API (Déjà Opérationnel) 
+
+
+Routes RESTful : Gestion complète du CRUD (Create, Read, Update, Delete) pour les trois modules. 
+
+
+Stockage JSON : Utilisation de fichiers sécurisés (notes.json, todos.json, contacts.json) pour sauvegarder les données. 
+
+
+Validation Joi : Système de filtrage strict empêchant l'envoi de données invalides (ex: mail mal formé, numéro incorrect, titre trop court). 
+
+B. La Logique de Liaison (Le "Bridge") 
+
+Connexion Axios : Coder les appels asynchrones vers le serveur. Le Frontend doit pouvoir récupérer les listes au chargement de la page (useEffect). 
+
+Gestion des États (State Management) : Gérer l'affichage dynamique des données : si une note est supprimée sur le serveur, elle doit disparaître instantanément du Front.
+
+
+Gestion des Modales : Coder la logique d'ouverture/fermeture des formulaires au clic sur les boutons d'ajout ou de modification. 
+
+C. Traitement des Données (Data Intelligence)
+
+Moteur de recherche : Créer un filtre JavaScript côté client qui réduit la liste affichée dès que l'utilisateur tape une lettre. 
+
+Algorithme de Tri : Les tâches doivent être automatiquement triées par importance (Priority) avant d'être envoyées au Frontend.
