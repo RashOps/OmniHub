@@ -6,11 +6,18 @@ const { v4: uuidv4 } = require("uuid")
 
 const FILE_PATH = "notes.json"
 
+// Creation d'un schema reutilisable
+const noteSchema = {
+    title: Joi.string().min(5).max(20).trim(),
+    content: Joi.string().max(500).trim()
+}
+
 // Route GET : Récupérer toutes les notes
 router.get("/api/notes", async (req, res) => {
     try {
         const data = await readFile(FILE_PATH)
         res.json(data)
+
     } catch (error) {
         res.status(500).json({ message: "Erreur de lecture" })
     }
@@ -19,17 +26,24 @@ router.get("/api/notes", async (req, res) => {
 // Route POST : Créer une note
 router.post("/api/notes", async (req, res) => {
     try {
-        const data = await readFile(FILE_PATH)
+        const schema = Joi.object({
+            title: noteSchema.title.required(),
+            content: noteSchema.content.required()
+        })
+        const {error, value} = schema.validate(req.body)
+        if (error) return res.status(400).json({ error: "Données invalides", details: error.details[0].message })
+
+        const notes = await readFile(FILE_PATH)
         const newNote = {
             id: uuidv4(), 
-            ...req.body,
-            "createdAt": new Date().toISOString()   
+            ...value,
+            createdAt: new Date().toISOString()   
         }
 
-        data.push(newNote)
-        await writeFile(FILE_PATH, data)
-        
+        notes.push(newNote)
+        await writeFile(FILE_PATH, notes)
         res.status(201).json(newNote) 
+
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la création" })
     }
@@ -38,6 +52,13 @@ router.post("/api/notes", async (req, res) => {
 // Route PUT : Update
 router.put("/api/notes/:id", async (req, res) => {
     try {
+        const schema = Joi.object({
+            title: noteSchema.title.optional(),
+            content: noteSchema.content.optional()
+        }).min(1)
+        const {error, value} = schema.validate(req.body)
+        if (error) return res.status(400).json({ error: "Données invalides", details: error.details[0].message })
+        
         const { id } = req.params;
         const notes = await readFile(FILE_PATH)
         const index = notes.findIndex(n => n.id === id)
@@ -46,11 +67,10 @@ router.put("/api/notes/:id", async (req, res) => {
             return res.status(404).json({ message: "Note introuvable" })
         }
 
-        // Merge des données existantes avec les modifications
         notes[index] = { 
             ...notes[index], 
-            ...req.body,
-            "createdAt": new Date().toISOString()
+            ...value,
+            updatedAt: new Date().toISOString()
         }
         
         await writeFile(FILE_PATH, notes)
@@ -73,11 +93,11 @@ router.delete("/api/notes/:id", async (req, res) => {
         }
 
         await writeFile(FILE_PATH, filteredNotes);
-        res.status(200).json({ message: "Suppression effectuée" }) // 204 No Content : succès sans corps de réponse
+        res.status(204).send()
 
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la suppression" })
     }
 });
 
-module.exports = router;
+module.exports = router

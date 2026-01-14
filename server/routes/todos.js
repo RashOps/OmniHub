@@ -6,11 +6,28 @@ const { v4: uuidv4 } = require("uuid")
 
 const FILE_PATH = "todos.json"
 
+// Creation d'un schema reutilisable
+const todoSchema = {
+    task: Joi.string().min(3).max(50).trim(),
+    priority: Joi.string().valid("low", "medium", "high"),
+    isCompleted: Joi.boolean()
+}
+
+const priorityWeights = {
+    "high": 3,
+    "medium": 2,
+    "low": 1
+};
+
 // Routes To-do
 router.get("/api/todos", async (req, res) => {
     try {
         const data = await readFile(FILE_PATH)
-        res.json(data)
+        const sortedData = data.sort((a, b) => {
+            return priorityWeights[b.priority] - priorityWeights[a.priority];
+        })
+        res.json(sortedData)
+
     } catch (error) {
         res.status(500).json({ message: "Erreur de lecture" })
     }
@@ -18,19 +35,25 @@ router.get("/api/todos", async (req, res) => {
 
 router.post("/api/todos", async (req, res) => {
     try {
+        const schema = Joi.object({
+            task: todoSchema.task.required(),
+            priority: todoSchema.priority.default("medium")
+        })
+
+        const { error, value } = schema.validate(req.body);
+        if (error) return res.status(400).json({ error: "Données invalides", details: error.details[0].message })
+
         const todos = await readFile(FILE_PATH)
         
         const newTodo = {
             id: uuidv4(),
-            ...req.body,
-            "isCompleted": false,
-            "priority": req.body.priority || "medium",
-            "createdAt": new Date().toISOString()
+            ...value,
+            isCompleted: false,
+            createdAt: new Date().toISOString()
         }
 
         todos.push(newTodo)
         await writeFile(FILE_PATH, todos)
-
         res.status(201).json(newTodo)
 
     } catch (error) {
@@ -40,6 +63,15 @@ router.post("/api/todos", async (req, res) => {
 
 router.put("/api/todos/:id", async (req, res) => {
     try {
+        const schema = Joi.object({
+            task: todoSchema.task.optional(),
+            isCompleted: todoSchema.isCompleted.optional(),
+            priority: todoSchema.priority.optional()
+        }).min(1)
+
+        const {error, value} = schema.validate(req.body)
+        if (error) return res.status(400).json({ error: "Données invalides", details: error.details[0].message })
+
         const { id } = req.params
         const todos = await readFile(FILE_PATH)
         const index = todos.findIndex(t => t.id === id)
@@ -50,10 +82,8 @@ router.put("/api/todos/:id", async (req, res) => {
         
         todos[index] = { 
             ...todos[index], 
-            ...req.body, 
-            "isCompleted": req.body.isCompleted,
-            "priority": req.body.priority,
-            "createdAt": new Date().toISOString() }
+            ...value, 
+            updatedAt: new Date().toISOString() }
         
         await writeFile(FILE_PATH, todos)
         res.json(todos[index])
@@ -74,8 +104,8 @@ router.delete("/api/todos/:id", async (req, res) => {
         }
 
         await writeFile(FILE_PATH, filteredTodos);
-        res.status(200).json({ message: "Suppression effectuée" })
-
+        res.status(204).send()
+        
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la suppression" })
     }

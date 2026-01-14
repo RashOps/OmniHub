@@ -1,14 +1,15 @@
 [
   {
     "id": "101",
-    "titre": "Idée Projet OmniHub",
-    "contenu": "Penser à utiliser le flou pour les modales.",
+    "title": "Idée Projet OmniHub",
+    "content": "Penser à utiliser le flou pour les modales.",
     "createdAt": "2026-01-09"
   },
   {
-    "id": "209",
-    "titre": "Test POST API",
-    "contenu": "Note 1.",
-    "createdAt": "2026-01-09"
+    "id": "9ae1633a-3548-449b-97f9-7e4b44ad70f7",
+    "title": "Test POST API",
+    "content": "Note 3 update.",
+    "createdAt": "2026-01-14T18:08:20.564Z",
+    "updatedAt": "2026-01-14T18:10:51.316Z"
   }
 ]

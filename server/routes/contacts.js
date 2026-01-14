@@ -4,36 +4,65 @@ const router = express.Router()
 const { readFile, writeFile } = require("../utils/fileHandler")
 const { v4: uuidv4 } = require("uuid")
 
+const FILE_PATH = "contacts.json"
+
+// Creation d'un schema reutilisable
+const contactSchema = {
+    surname: Joi.string().max(10).trim(),
+    firstname: Joi.string().max(10).trim(),
+    phonenumber: Joi.string().pattern(/^0[1-9][0-9]{8}$/).trim(),
+    email: Joi.string().email().lowercase().trim()
+}
+
 // Route Contact
 router.get("/api/contacts", async (req, res) => {
     try {
-        const data = await readFile("contacts.json")
-        res.json(data) // On attend d'avoir les data avant d'envoyer
+        const data = await readFile(FILE_PATH)
+        res.json(data)
     } catch (error) {
         res.status(500).json({ message: "Erreur de lecture" })
     }
 })
 
 router.post("/api/contacts", async (req, res) => {
-    // console.log(req.body)
-
     try {
-        // 1. Lire la liste actuelle
-        const contacts = await readFile("contacts.json")
+        const schema = Joi.object({
+            surname: contactSchema.surname.required(),
+            firstname: contactSchema.firstname.required(),
+            phonenumber: contactSchema.phonenumber.required(),
+            email: contactSchema.email.optional()
+        })
 
-        // 2. Créer le nouveau contact en fusionnant l'ID et le corps de la requête
+        const {error, value} = schema.validate(req.body)
+        if (error) {
+        const message = error.details[0].message.includes('pattern') 
+            ? "Le format du numéro de téléphone est invalide (10 chiffres attendus)."
+            : error.details[0].message
+            
+        return res.status(400).json({ error: "Numéro invalide", details: error.details[0].message });
+    }
+        
+        const contacts = await readFile(FILE_PATH)
+
+        const isDuplicate = contacts.some(c => c.email === value.email || c.phonenumber === value.phonenumber);
+        if (isDuplicate) {
+            return res.status(409).json({ message: "Ce contact existe déjà (email ou téléphone)" });
+        }
+
+        
         const newContact = {
             id: uuidv4(),
-            ...req.body // On "étale" les données reçues (nom, tel, etc.)
+            ...value, 
+            createdAt: new Date().toISOString()
         };
 
-        // 3. Ajouter au tableau
+        
         contacts.push(newContact)
 
-        // 4. Sauvegarder la liste mise à jour
-        await writeFile("contacts.json", contacts)
-
+        
+        await writeFile(FILE_PATH, contacts)
         res.status(201).json(newContact)
+
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la création" })
     }
@@ -41,37 +70,33 @@ router.post("/api/contacts", async (req, res) => {
 
 router.put("/api/contacts/:id", async (req, res) => {
     try {
-        const { id } = req.params;
-        const updatedFields = req.body; // Les nouvelles infos envoyées par le client
+        const schema = Joi.object({
+            surname: contactSchemaParts.surname.optional(),
+            firstname: contactSchemaParts.firstname.optional(),
+            phonenumber: contactSchemaParts.phonenumber.optional(),
+            email: contactSchemaParts.email.optional()
+        }).min(1)
 
-        // 1. Lire les données existantes
-        const contacts = await readFile("contacts.json");
+        const { error, value } = schema.validate(req.body)
+        if (error) return res.status(400).json({ error: "Validation failed", details: error.details[0].message })
 
-        // 2. Vérifier si le contact existe avant de faire quoi que ce soit
-        const contactExists = contacts.some(c => c.id === id);
-        if (!contactExists) {
-            return res.status(404).json({ message: "Contact non trouvé" });
-        }
+        const { id } = req.params
+        const contacts = await readFile(FILE_PATH);
+        const index = contacts.findIndex(c => c.id === id);
 
-        // 3. Créer le nouveau tableau avec la modification
-        const updatedContacts = contacts.map(contact => {
-            if (contact.id === id) {
-                // On fusionne l'ancien contact avec les nouveaux champs
-                // L'ID reste inchangé car il est déjà dans 'contact'
-                return { ...contact, ...updatedFields };
-            }
-            return contact // On ne touche pas aux autres
-        });
+        if (index === -1) return res.status(404).json({ message: "Contact non trouvé" });
 
-        // 4. Sauvegarder dans le fichier JSON
-        await writeFile("contacts.json", updatedContacts)
+        // Update avec Merge
+        contacts[index] = { 
+            ...contacts[index], 
+            ...value, 
+            updatedAt: new Date().toISOString() 
+        };
 
-        // 5. Trouver le contact modifié pour le renvoyer (optionnel mais recommandé)
-        const finalContact = updatedContacts.find(c => c.id === id)
-        res.json(finalContact)
+        await writeFile(FILE_PATH, contacts)
+        res.json(contacts[index])
 
     } catch (error) {
-        console.error("Erreur PUT contacts:", error);
         res.status(500).json({ message: "Erreur lors de la mise à jour" });
     }
 })
@@ -79,13 +104,12 @@ router.put("/api/contacts/:id", async (req, res) => {
 router.delete("/api/contacts/:id", async (req, res) => {
     try {
         const { id } = req.params
-        const contacts = await readFile("contacts.json")
+        const contacts = await readFile(FILE_PATH)
 
-        // On garde tout SAUF celui qui a l'ID correspondant
         const filteredContacts = contacts.filter(c => c.id !== id)
 
-        await writeFile("contacts.json", filteredContacts);
-        res.status(204).send("Contact supprimé") // 204 = Succès, mais rien à renvoyer
+        await writeFile(FILE_PATH, filteredContacts);
+        res.status(204).send()
 
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la suppression" })
