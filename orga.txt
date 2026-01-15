@@ -36,6 +36,31 @@ Formulaire Note : Champ Titre et une zone de texte large (Textarea).
 
 Boutons d'Action : Paires de boutons standardisées "Enregistrer / Annuler" et "Confirmer / Supprimer". 
 
+A. Structure des Composants (Props & Data Flow)
+Chaque ligne ou carte doit être conçue comme un composant React indépendant.
+
+
+Composant TodoItem:
+
+Props attendues : task (string), priority (string), isCompleted (boolean), onToggle (fonction), onDelete (fonction).
+
+Logique : La couleur de fond change selon la priority. La case à cocher déclenche onToggle.
+
+
+Composant ContactCard:
+
+Props attendues : firstname, surname, phonenumber, email, onEdit, onDelete.
+
+Logique : Affiche les informations de manière élégante. Si email est absent, le champ ne s'affiche pas.
+
+
+Composant NoteCard:
+
+Props attendues : title, content, createdAt, onDelete.
+
+
+Logique : Affiche le titre en gras et tronque le contenu s'il dépasse 100 caractères pour garder l'alignement des colonnes.
+
 2. Partie BACK-END & INTÉGRATION (Rayhan)
 
 Objectif : Assurer la persistance des données, la sécurité des échanges et le lien entre l'interface et le serveur. 
