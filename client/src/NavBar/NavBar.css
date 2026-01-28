@@ -1,0 +1,31 @@
+.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between; /* Espace entre le logo et l'horloge */
+    align-items: center;
+    padding: 0 40px;
+    background: rgba(255, 255, 255, 0.1); /* Début du Glassmorphism */
+    backdrop-filter: blur(10px); /* L'effet de flou demandé [cite: 13] */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 1000; /* Pour rester au-dessus du reste */
+}
+
+.navbar-logo h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #fff; /* À adapter selon ton thème */
+}
+
+.navbar-slogan {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.navbar-clock {
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace; /* Style digital */
+}
