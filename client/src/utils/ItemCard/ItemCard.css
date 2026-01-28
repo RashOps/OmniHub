@@ -1,0 +1,71 @@
+.item-card-container {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 18px;
+    padding: 12px 20px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.item-card-container.completed {
+    opacity: 0.6;
+}
+
+.item-card-leading {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* Style spécifique de ta checkbox To-Do */
+.item-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #61dafb;
+}
+
+.item-card-content {
+    flex: 1; /* Prend tout l'espace central */
+    font-size: 1.1rem;
+    color: white;
+}
+
+.completed .item-title {
+    text-decoration: line-through;
+}
+
+/* Le bloc "Modifier | Supprimer" à droite */
+.action-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.inner-action-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.inner-action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.inner-action-btn.danger:hover {
+    background: rgba(255, 82, 82, 0.2);
+}
+
+.action-separator {
+    width: 1px;
+    height: 15px;
+    background: rgba(255, 255, 255, 0.6);
+}
