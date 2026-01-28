@@ -1,0 +1,40 @@
+.quick-add-wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: stretch;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* Le champ de texte style "Outlined" */
+.quick-add-input {
+    flex: 1; /* Prend tout l'espace restant */
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 18px;
+    padding: 0 25px;
+    color: white;
+    font-size: 1.2rem;
+    font-style: italic; /* Pour correspondre à ton écriture sur l'image */
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.quick-add-input:focus {
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Empilement vertical des boutons */
+.quick-add-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+}
+
+/* Ajustement spécifique pour les boutons de ce bloc */
+.quick-add-buttons .custom-btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+}
