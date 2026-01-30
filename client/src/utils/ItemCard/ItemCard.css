@@ -7,10 +7,24 @@
     padding: 12px 20px;
     margin-bottom: 12px;
     transition: all 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
 }
 
 .item-card-container.completed {
-    opacity: 0.6;
+    opacity: 0.6; /* On réduit encore l'opacité pour le "sinking" */
+    filter: grayscale(1); /* On retire la couleur pour montrer l'inactivité */
+    background: rgba(255, 255, 255, 0.01);
+    border-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+}
+
+.item-card-container.completed .item-title {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.item-card-container.completed .priority-badge {
+    display: none; /* Optionnel : masquer le badge de priorité si terminé */
 }
 
 .item-card-leading {
@@ -31,6 +45,12 @@
     flex: 1; /* Prend tout l'espace central */
     font-size: 1.1rem;
     color: white;
+}
+
+.item-card-container:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(4px);
 }
 
 .completed .item-title {

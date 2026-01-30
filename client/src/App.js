@@ -164,9 +164,27 @@ function App() {
   };
 
   // --- 7. FILTRAGE DYNAMIQUE ---
-  const filteredTodos = todos.filter(t => t.task.toLowerCase().includes(todoSearch.toLowerCase()));
-  const filteredContacts = contacts.filter(c => `${c.firstname} ${c.surname}`.toLowerCase().includes(contactSearch.toLowerCase()));
-  const filteredNotes = notes.filter(n => n.title.toLowerCase().includes(noteSearch.toLowerCase()));
+// Définition des poids pour le calcul du tri
+  const priorityWeights = { high: 3, medium: 2, low: 1 };
+
+  const filteredTodos = todos
+    .filter(t => t.task.toLowerCase().includes(todoSearch.toLowerCase()))
+    .sort((a, b) => {
+      // 1. On trie d'abord par statut : les tâches non-terminées en haut
+      if (a.isCompleted !== b.isCompleted) {
+        return a.isCompleted ? 1 : -1;
+      }
+      // 2. Ensuite, on trie par poids de priorité (High > Medium > Low)
+      return (priorityWeights[b.priority] || 0) - (priorityWeights[a.priority] || 0);
+    });
+
+  const filteredContacts = contacts.filter(c => 
+    `${c.firstname} ${c.surname}`.toLowerCase().includes(contactSearch.toLowerCase())
+  );
+
+  const filteredNotes = notes.filter(n => 
+    n.title.toLowerCase().includes(noteSearch.toLowerCase())
+  );
 
   return (
     <div className="App">
