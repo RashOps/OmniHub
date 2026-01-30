@@ -15,7 +15,7 @@ const ContactList = ({ items, onSearch, onAddClick, onEdit, onDelete }) => {
                 <Button label="Ajouter un contact" variant="neutral" Icon={Plus} action={onAddClick} />
             </div>
 
-            <div className="list-items">
+            <div className="list-items-container">
                 {items.map((contact) => (
                     <ItemCard 
                         key={contact.id} 
