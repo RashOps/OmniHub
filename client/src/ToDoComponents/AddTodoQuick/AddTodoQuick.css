@@ -38,3 +38,34 @@
     font-size: 0.85rem;
     white-space: nowrap; /* Empêche le texte de passer à la ligne */
 }
+
+/* --- Responsive : Boutons en dessous --- */
+@media (max-width: 600px) {
+    .quick-add-wrapper {
+        flex-direction: column; /* On empile verticalement */
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .quick-add-input {
+        width: 100% !important; /* L'input prend toute la largeur */
+        height: 50px; /* On lui donne un peu plus de présence */
+        padding: 15px 20px;
+        font-size: 1rem;
+    }
+
+    .quick-add-buttons {
+        flex-direction: row; /* Les deux boutons restent côte à côte sous l'input */
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+    }
+
+    /* On force les boutons à occuper 50% de la largeur chacun */
+    .quick-add-buttons .custom-btn {
+        flex: 1; 
+        padding: 10px 5px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+}

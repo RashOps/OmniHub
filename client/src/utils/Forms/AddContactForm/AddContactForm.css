@@ -2,13 +2,15 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.05); /* Effet verre */
-    backdrop-filter: blur(10px); /* Flou d'arrière-plan  */
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    width: 100%;
+    padding: 30px;
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(15px); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    width: 90%; 
     max-width: 450px;
+    box-sizing: border-box; 
+    margin: auto;
 }
 
 .form-title {
@@ -34,7 +36,7 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-    border-color: #61dafb; /* Couleur React pour le focus */
+    border-color: #61dafb;
 }
 
 .form-actions {
@@ -45,5 +47,26 @@ input:focus, textarea:focus {
 }
 
 textarea {
-    resize: none; /* On bloque le redimensionnement pour ne pas casser le layout */
+    resize: none;
+}
+
+@media (max-width: 600px) {
+  .input-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .form-container {
+    padding: 20px;
+    width: 95%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
 }
