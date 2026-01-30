@@ -4,7 +4,8 @@ import { Edit2, Trash2 } from "lucide-react"
 
 const ItemCard = ({ 
     title, 
-    Icon, 
+    Icon,
+    priority, 
     isTodo = false, 
     isCompleted = false, 
     onToggle, 
@@ -30,6 +31,12 @@ const ItemCard = ({
             {/* Partie Centrale : Le Texte */}
             <div className="item-card-content">
                 <span className="item-title">{title}</span>
+                {/* ✅ Affichage de la pastille de priorité */}
+                {isTodo && priority && (
+                    <span className={`priority-badge ${priority}`}>
+                        {priority.toUpperCase()}
+                    </span>
+                )}
             </div>
 
             {/* Partie Droite : Groupe de boutons Modifier | Supprimer */}

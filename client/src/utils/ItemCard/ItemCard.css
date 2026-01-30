@@ -69,3 +69,40 @@
     height: 15px;
     background: rgba(255, 255, 255, 0.6);
 }
+
+/* ✅ Style des pastilles de priorité */
+.priority-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid transparent;
+}
+
+.priority-badge.high {
+    background: rgba(255, 82, 82, 0.2);
+    color: #ff5252;
+    border-color: rgba(255, 82, 82, 0.4);
+}
+
+.priority-badge.medium {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border-color: rgba(255, 193, 7, 0.4);
+}
+
+.priority-badge.low {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+    border-color: rgba(76, 175, 80, 0.4);
+}
+
+/* On aligne le badge avec le titre */
+.item-card-content {
+    display: flex;
+    align-items: center;
+}
