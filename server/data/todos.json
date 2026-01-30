@@ -5,7 +5,7 @@
     "isCompleted": false,
     "priority": "high",
     "createdAt": "2026-01-10T11:46:13.155Z",
-    "updatedAt": "2026-01-30T14:06:02.489Z"
+    "updatedAt": "2026-01-30T14:44:19.313Z"
   },
   {
     "id": "9c7fb727-570e-4497-96d2-8c76064c66c8",
@@ -39,11 +39,11 @@
     "updatedAt": "2026-01-29T15:27:46.662Z"
   },
   {
-    "id": "fb351d21-646c-471f-9dd2-aa1691a2e753",
-    "task": "Mon poto le riche",
-    "priority": "low",
+    "id": "3c980170-0ecd-4b7a-8460-dd9b8596962e",
+    "task": "Manger du riz",
+    "priority": "high",
     "isCompleted": false,
-    "createdAt": "2026-01-29T16:08:01.291Z",
-    "updatedAt": "2026-01-29T16:34:02.232Z"
+    "createdAt": "2026-01-30T14:44:43.579Z",
+    "updatedAt": "2026-01-30T14:44:51.131Z"
   }
 ]

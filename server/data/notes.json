@@ -21,7 +21,8 @@
   {
     "id": "c84a2ba7-05bf-4e77-85e6-7290c80c13bd",
     "title": "Hello",
-    "content": "Test",
-    "createdAt": "2026-01-29T13:59:42.023Z"
+    "content": "Test 2",
+    "createdAt": "2026-01-29T13:59:42.023Z",
+    "updatedAt": "2026-01-30T14:45:06.612Z"
   }
 ]
