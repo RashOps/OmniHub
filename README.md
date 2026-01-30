@@ -68,12 +68,15 @@ Toutes les routes sont préfixées par `/api`. La validation **Joi** est appliqu
 ```text
 src/
 ├── ToDoComponents/       # Logique de gestion des tâches
+├── NavBar/               # Barre de navigation
 ├── ContactComponents/    # Gestion du répertoire
 ├── NoteComponents/       # Gestion des notes
 ├── services/             # Abstraction des appels API (Ky services)
 ├── utils/
+|   ├── Button/           # Butttons génériques
 │   ├── Forms/            # Formulaires génériques (AddTodo, AddContact...)
 │   ├── ItemCard/         # Composant d'affichage partagé
+|   ├── SearchBar/        # Barre de recherche partagée
 │   └── Skeleton/         # Placeholders de chargement animé
 └── App.js                # Contrôleur principal et gestion d'état
 ```
