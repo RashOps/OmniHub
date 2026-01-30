@@ -13,11 +13,12 @@ const ToDoList = ({ items, onSearch, onAdd, onDeleteAll, onToggle, onEdit, onDel
             <AddTodoQuick onAdd={onAdd} onDeleteAll={onDeleteAll} />
 
             {/* Boucle de rendu des éléments  */}
-            <div className="list-items">
+            <div className="list-items-container">
                 {items.map((todo) => (
                     <ItemCard 
                         key={todo.id} 
-                        title={todo.task} 
+                        title={todo.task}
+                        priority={todo.priority} 
                         isTodo={true}
                         isCompleted={todo.isCompleted}
                         onToggle={() => onToggle(todo.id)}

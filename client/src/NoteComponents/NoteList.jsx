@@ -6,6 +6,7 @@ import Button from "../utils/Button/Button"
 const NoteList = ({ items, onSearch, onAddClick, onDeleteAll, onEdit, onDelete }) => {
     return (
         <div className="note-list-container">
+            <h2>Notes</h2>
             <SearchBar placeholder="Rechercher une note..." onSearchChange={onSearch} />
             
             <div className="action-row">
@@ -13,7 +14,7 @@ const NoteList = ({ items, onSearch, onAddClick, onDeleteAll, onEdit, onDelete }
                 <Button label="Supprimer toutes les notes" variant="danger" Icon={Trash2} action={onDeleteAll} />
             </div>
 
-            <div className="list-items">
+            <div className="list-items-container">
                 {items.map((note) => (
                     <ItemCard 
                         key={note.id} 
