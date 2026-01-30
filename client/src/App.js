@@ -6,120 +6,248 @@ import ContactList from "./ContactComponents/ContactList";
 import NoteList from "./NoteComponents/NoteList";
 import AddContactForm from "./utils/Forms/AddContactForm/AddContactForm";
 import AddNoteForm from "./utils/Forms/AddNoteForm/AddNoteForm";
+import AddTodoForm from "./utils/Forms/AddTodoForm/AddTodoForm";
+import Skeleton from "./utils/Skeleton/Skeleton";
 
-// Import de tes services Ky
 import { todoService } from "./services/todoService";
 import { contactService } from "./services/contactService";
 import { noteService } from "./services/noteService";
 
 function App() {
-  // 1. États pour stocker les données JSON
   const [todos, setTodos] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  
 
-  // 2. Fonction de chargement globale
+  // --- 1. ÉTATS DE RECHERCHE (MOTEUR DE FILTRAGE) ---
+  const [todoSearch, setTodoSearch] = useState("");
+  const [contactSearch, setContactSearch] = useState("");
+  const [noteSearch, setNoteSearch] = useState("");
+
+  // --- 2. ÉTATS POUR LA MODIFICATION ---
+  const [editingContact, setEditingContact] = useState(null);
+  const [editingNote, setEditingNote] = useState(null);
+
+  // --- 3. CHARGEMENT INITIAL ---
   const fetchAllData = async () => {
     setIsLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 2000))
     try {
-      // On lance les 3 appels en parallèle pour plus de performance
       const [todosData, contactsData, notesData] = await Promise.all([
         todoService.getAll(),
         contactService.getAll(),
         noteService.getAll()
       ]);
-
       setTodos(todosData);
       setContacts(contactsData);
       setNotes(notesData);
     } catch (error) {
-      console.error("Erreur lors de la récupération des données :", error);
+      console.error("Erreur de récupération :", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // États de visibilité pour les modales 
+  useEffect(() => { fetchAllData(); }, []);
+
+  // --- 4. LOGIQUE TO-DO (CRUD + QUICK ADD) ---
+  const handleAddTodo = async (taskData) => {
+  try {
+    const cleanData = {
+      task: taskData.task,
+      priority: taskData.priority || "medium"
+    };
+    
+    const res = await todoService.create(cleanData);
+    setTodos([...todos, res]);
+  } catch (error) {
+    console.error("Erreur création :", error);
+    alert("Erreur Joi : Vérifiez que le texte fait entre 3 et 50 caractères.");
+  }
+  };
+
+  const handleToggleTodo = async (id) => {
+  const todo = todos.find(t => t.id === id);
+  const updateData = {
+    isCompleted: !todo.isCompleted,
+    task: todo.task,
+    priority: todo.priority
+  };
+
+  try {
+    const updated = await todoService.update(id, updateData);
+    setTodos(todos.map(t => t.id === id ? updated : t));
+  } catch (error) {
+    console.error("Erreur Toggle:", error);
+  }
+  };
+
+  const handleDeleteTodo = async (id) => {
+    if (window.confirm("Supprimer cette tâche ?")) {
+      await todoService.delete(id);
+      setTodos(todos.filter(t => t.id !== id));
+    }
+  };
+
+  const handleDeleteAllTodos = async () => {
+    if (window.confirm("Vider toute la liste de tâches ?")) {
+      await Promise.all(todos.map(t => todoService.delete(t.id)));
+      setTodos([]);
+    }
+  };
+
+  const handleTodoAction = async (formData) => {
+  try {
+    if (editingTodo) {
+      const updateData = { 
+        task: formData.task, 
+        priority: formData.priority,
+        isCompleted: editingTodo.isCompleted 
+      };
+      const updated = await todoService.update(editingTodo.id, updateData);
+      setTodos(todos.map(t => t.id === editingTodo.id ? updated : t));
+    }
+    setIsTodoModalOpen(false);
+    setEditingTodo(null);
+  } catch (error) {
+    console.error(error);
+  }
+  }
+
+  const [editingTodo, setEditingTodo] = useState(null);
+  const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
+
+  // --- 5. LOGIQUE CONTACTS (CRUD + MODALE) ---
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  const handleContactAction = async (formData) => {
+    if (editingContact) {
+      const updated = await contactService.update(editingContact.id, formData);
+      setContacts(contacts.map(c => c.id === editingContact.id ? updated : c));
+    } else {
+      const created = await contactService.create(formData);
+      setContacts([...contacts, created]);
+    }
+    closeContactModal();
+  };
+
+  const closeContactModal = () => {
+    setIsContactModalOpen(false);
+    setEditingContact(null);
+  };
+
+  const handleDeleteContact = async (id) => {
+    if (window.confirm("Supprimer ce contact ?")) {
+      await contactService.delete(id);
+      setContacts(contacts.filter(c => c.id !== id));
+    }
+  };
+
+  // --- 6. LOGIQUE NOTES (CRUD + MODALE) ---
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
-  // --- LOGIQUE CONTACTS ---
-  const handleCreateContact = async (newContact) => {
-    try {
-      const created = await contactService.create(newContact);
-      setContacts([...contacts, created]); // Mise à jour "Optimiste" du State
-      setIsContactModalOpen(false); // On ferme la fenêtre après succès 
-    } catch (error) {
-      alert(error); // À remplacer par un message Joi plus tard
-    }
-  };
-
-  // --- LOGIQUE NOTES ---
-  const handleCreateNote = async (newNote) => {
-    try {
-      const created = await noteService.create(newNote);
+  const handleNoteAction = async (noteData) => {
+    if (editingNote) {
+      const updated = await noteService.update(editingNote.id, noteData);
+      setNotes(notes.map(n => n.id === editingNote.id ? updated : n));
+    } else {
+      const created = await noteService.create(noteData);
       setNotes([...notes, created]);
-      setIsNoteModalOpen(false);
-    } catch (error) {
-      alert(error);
     }
+    closeNoteModal();
   };
 
-  // 3. Appel au démarrage
-  useEffect(() => {
-    fetchAllData();
-  }, []);
+  const closeNoteModal = () => {
+    setIsNoteModalOpen(false);
+    setEditingNote(null);
+  };
+
+  // --- 7. FILTRAGE DYNAMIQUE ---
+  const filteredTodos = todos.filter(t => t.task.toLowerCase().includes(todoSearch.toLowerCase()));
+  const filteredContacts = contacts.filter(c => `${c.firstname} ${c.surname}`.toLowerCase().includes(contactSearch.toLowerCase()));
+  const filteredNotes = notes.filter(n => n.title.toLowerCase().includes(noteSearch.toLowerCase()));
 
   return (
     <div className="App">
       <NavBar />
-      
       {isLoading ? (
-        <div className="loading-screen">Chargement de OmniHub...</div>
-      ) : (
+          <main className="dashboard-grid">
+            <section className="todo-column">
+              <Skeleton type="title" />
+              {[...Array(5)].map((_, i) => <Skeleton key={i} type="card" />)}
+            </section>
+            <section className="contact-column">
+              <Skeleton type="title" />
+              {[...Array(3)].map((_, i) => <Skeleton key={i} type="card" />)}
+            </section>
+          </main>
+        ) : (
         <main className="dashboard-grid">
-          {/* On passe les données aux composants via les Props */}
           <section className="todo-column">
             <ToDoList 
-              items={todos} 
-              onAdd={(newTask) => {/* Logique POST à venir */}}
+              items={filteredTodos} 
+              onSearch={setTodoSearch}
+              onAdd={handleAddTodo}
+              onToggle={handleToggleTodo}
+              onDelete={handleDeleteTodo}
+              onDeleteAll={handleDeleteAllTodos}
+              onEdit={(todo) => { setEditingTodo(todo); setIsTodoModalOpen(true); }}
             />
           </section>
 
           <section className="contact-column">
             <ContactList 
-              items={contacts} 
-              onAddClick={() => setIsContactModalOpen(true)} 
+              items={filteredContacts} 
+              onSearch={setContactSearch}
+              onAddClick={() => setIsContactModalOpen(true)}
+              onEdit={(contact) => { setEditingContact(contact); setIsContactModalOpen(true); }}
+              onDelete={handleDeleteContact}
             />
           </section>
 
           <section className="note-column">
             <NoteList 
-              items={notes} 
-              onAddClick={() => setIsNoteModalOpen(true)} 
+              items={filteredNotes} 
+              onSearch={setNoteSearch}
+              onAddClick={() => setIsNoteModalOpen(true)}
+              onEdit={(note) => { setEditingNote(note); setIsNoteModalOpen(true); }}
+              onDelete={async (id) => { if(window.confirm("Supprimer cette note ?")) {await noteService.delete(id); setNotes(notes.filter(n => n.id !== id))} }}
+              onDeleteAll={async () => { if(window.confirm("Supprimer toutes les notes ?")) { await Promise.all(notes.map(n => noteService.delete(n.id))); setNotes([]); }}}
             />
           </section>
 
-          {/* Rendu Conditionnel des Modales avec effet Flou [cite: 13, 19] */}
-          {isContactModalOpen && (
-            <div className="modal-overlay">
-              <AddContactForm 
-                onAdd={handleCreateContact} 
-                onCancel={() => setIsContactModalOpen(false)} 
-              />
-            </div>
-          )}
-
-          {isNoteModalOpen && (
-            <div className="modal-overlay">
-              <AddNoteForm 
-                onAdd={handleCreateNote} 
-                onCancel={() => setIsNoteModalOpen(false)} 
-              />
-            </div>
-          )}
         </main>
+      )}
+      {/* MODALES AVEC PRE-REMPLISSAGE (Edit ou Create) */}
+      {isContactModalOpen && (
+        <div className="modal-overlay">
+          <AddContactForm 
+            onAdd={handleContactAction} 
+            onCancel={closeContactModal}
+            initialData={editingContact}
+          />
+        </div>
+      )}
+
+      {isNoteModalOpen && (
+        <div className="modal-overlay">
+          <AddNoteForm 
+            onAdd={handleNoteAction} 
+            onCancel={closeNoteModal}
+            initialData={editingNote}
+          />
+        </div>
+      )}
+
+      {isTodoModalOpen && (
+        <div className="modal-overlay">
+          <AddTodoForm 
+            onAdd={handleTodoAction} 
+            onCancel={() => { setIsTodoModalOpen(false); setEditingTodo(null); }}
+            initialData={editingTodo} 
+          />
+        </div>
       )}
     </div>
   );
