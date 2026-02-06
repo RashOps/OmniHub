@@ -28,6 +28,10 @@ export const noteService = {
         }
     },
 
+    deleteAll: async () => {
+    return await api.delete("notes/clear/all");
+    },
+
     delete: async (id) => {
         try {
             return await api.delete(`notes/${id}`)
@@ -35,5 +39,5 @@ export const noteService = {
             const errorData = await error.response?.json()
             throw errorData?.message || "Erreur lors de la suppression de la note"
         }
-    }
+    },
 }

@@ -28,6 +28,10 @@ export const todoService = {
         }
     },
 
+    deleteAll: async () => {
+    return await api.delete("todos/clear/all");
+    },
+
     delete: async (id) => {
         try {
             return await api.delete(`todos/${id}`)
@@ -35,5 +39,5 @@ export const todoService = {
             const errorData = await error.response?.json()
             throw errorData?.message || "Erreur lors de la suppression de la tâche"
         }
-    }
+    },
 }

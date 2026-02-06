@@ -92,8 +92,12 @@ function App() {
 
   const handleDeleteAllTodos = async () => {
     if (window.confirm("Vider toute la liste de tâches ?")) {
-      await Promise.all(todos.map(t => todoService.delete(t.id)));
-      setTodos([]);
+      try {
+            await todoService.deleteAll();
+            setTodos([]);
+        } catch (error) {
+            console.error("Erreur Bulk Delete:", error);
+        }
     }
   };
 
@@ -183,6 +187,17 @@ function App() {
     setEditingNote(null);
   };
 
+  const handleDeleteAllNotes = async () => {
+    if (window.confirm("Vider toute la liste des notes ?")) {
+      try {
+            await noteService.deleteAll();
+            setNotes([]);
+        } catch (error) {
+            console.error("Erreur Bulk Delete:", error);
+        }
+    }
+  };
+
   // --- 7. FILTRAGE DYNAMIQUE ---
 // Définition des poids pour le calcul du tri
   const priorityWeights = { high: 3, medium: 2, low: 1 };
@@ -251,7 +266,7 @@ function App() {
               onAddClick={() => setIsNoteModalOpen(true)}
               onEdit={(note) => { setEditingNote(note); setIsNoteModalOpen(true); }}
               onDelete={async (id) => { if(window.confirm("Supprimer cette note ?")) {await noteService.delete(id); setNotes(notes.filter(n => n.id !== id))} }}
-              onDeleteAll={async () => { if(window.confirm("Supprimer toutes les notes ?")) { await Promise.all(notes.map(n => noteService.delete(n.id))); setNotes([]); }}}
+              onDeleteAll={handleDeleteAllNotes}
             />
           </section>
 
