@@ -11,6 +11,7 @@
 
 ## 1. Objectif du Projet
 **OmniHub** est une application web centralisée conçue pour optimiser la gestion quotidienne. Elle regroupe trois piliers de la productivité : la gestion des tâches (**To-Do**), un répertoire de **Contacts** et une prise de **Notes** rapide. L'interface utilise les principes du **Glassmorphism** pour un rendu moderne et professionnel.
+![Dashboard-app](./app.png)
 
 ---
 
