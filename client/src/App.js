@@ -122,15 +122,26 @@ function App() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const handleContactAction = async (formData) => {
+    try {
+      const cleanData = {
+      surname: formData.surname,
+      firstname: formData.firstname,
+      phonenumber: formData.phonenumber,
+      email: formData.email || ""
+    }
+
     if (editingContact) {
-      const updated = await contactService.update(editingContact.id, formData);
+      const updated = await contactService.update(editingContact.id, cleanData);
       setContacts(contacts.map(c => c.id === editingContact.id ? updated : c));
     } else {
-      const created = await contactService.create(formData);
+      const created = await contactService.create(cleanData);
       setContacts([...contacts, created]);
     }
     closeContactModal();
-  };
+  } catch(error) {
+    console.error("Erreur Contact:", error);
+    alert(error)
+  }}
 
   const closeContactModal = () => {
     setIsContactModalOpen(false);
@@ -148,15 +159,24 @@ function App() {
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
 
   const handleNoteAction = async (noteData) => {
+    try {
+      const cleanData = {
+      title: noteData.title,
+      content: noteData.content
+    }
+
     if (editingNote) {
-      const updated = await noteService.update(editingNote.id, noteData);
+      const updated = await noteService.update(editingNote.id, cleanData);
       setNotes(notes.map(n => n.id === editingNote.id ? updated : n));
     } else {
-      const created = await noteService.create(noteData);
+      const created = await noteService.create(cleanData);
       setNotes([...notes, created]);
     }
     closeNoteModal();
-  };
+  } catch(error) {
+    console.error("Erreur Note:", error);
+    alert(error)
+  }}
 
   const closeNoteModal = () => {
     setIsNoteModalOpen(false);
@@ -170,11 +190,11 @@ function App() {
   const filteredTodos = todos
     .filter(t => t.task.toLowerCase().includes(todoSearch.toLowerCase()))
     .sort((a, b) => {
-      // 1. On trie d'abord par statut : les tâches non-terminées en haut
+      // Tri par status : les tâches non-terminées en haut
       if (a.isCompleted !== b.isCompleted) {
         return a.isCompleted ? 1 : -1;
       }
-      // 2. Ensuite, on trie par poids de priorité (High > Medium > Low)
+      // 2. Trie par priorité (High > Medium > Low)
       return (priorityWeights[b.priority] || 0) - (priorityWeights[a.priority] || 0);
     });
 

@@ -7,11 +7,11 @@
 }
 
 * {
-  box-sizing: border-box; /* Force le calcul de largeur incluant padding et bordures */
+  box-sizing: border-box; 
 }
 
 html, body {
-  overflow-x: hidden; /* Empêche physiquement le scroll horizontal indésirable */
+  overflow-x: hidden; 
   width: 100%;
 }
 
@@ -106,6 +106,40 @@ html, body {
   gap: 10px;
 }
 
+/* --- 5.5 Cartes d'Items (Fix Overflow) --- */
+.item-card-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.item-card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;        
+  min-width: 0;   
+}
+
+.item-title {
+  font-size: 0.95rem;
+  white-space: nowrap;      
+  overflow: hidden;         
+  text-overflow: ellipsis;  
+  flex: 1;
+}
+
+.item-actions {
+  flex-shrink: 0; 
+  margin-left: 15px;
+}
+
 /* Mode overlay pour les formualaires*/
 .modal-overlay {
   position: fixed; 
@@ -127,7 +161,7 @@ html, body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0 15px; /* On réduit pour donner de la place au contenu */
+    padding: 0 15px; 
     gap: 20px;
   }
 
@@ -135,39 +169,40 @@ html, body {
   .todo-column, .contact-column, .note-column {
     grid-row: auto;
     width: 100% !important;
-    min-width: 0 !important; /* On casse la règle des 450px ici */
+    min-width: 0 !important; 
     max-height: none; 
-    padding: 20px; /* Un peu moins de padding pour gagner de l'espace */
+    padding: 20px; 
   }
 
   .list-items-container {
     height: auto !important; 
-    max-height: 450px; /* On garde un scroll interne pour ne pas avoir une page infinie */
+    max-height: 450px; 
   }
 
-  /* ✅ RÉGLAGE DES CARTES (ITEM CARDS) */
+  /* RÉGLAGE DES CARTES (ITEM CARDS) */
   .item-card-container {
-    padding: 10px 12px; /* On réduit le rembourrage */
+    padding: 10px 12px;
     gap: 8px;
-    flex-wrap: wrap; /* Permet aux boutons de passer dessous si le titre est trop long */
+    flex-wrap: wrap; 
   }
 
   .item-card-content {
-    flex: 1; /* Prend tout l'espace */
-    min-width: 120px; /* Assure que le texte reste lisible */
+    flex: 1; 
+    min-width: 120px; 
     display: flex;
     align-items: center;
-    overflow: hidden; /* Empêche le texte de sortir */
+    overflow: hidden; 
   }
 
   .item-title {
     font-size: 0.85rem;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Ajoute "..." si le texte est trop long */
+    text-overflow: ellipsis; 
+    flex: 1
   }
 
-  /* ✅ BOUTONS ET BADGES */
+  /* BOUTONS ET BADGES */
   .inner-action-btn {
     padding: 3px 6px !important; 
     font-size: 0.6rem !important; 
