@@ -1,5 +1,5 @@
 import "./ItemCard.css"
-import Button from "../Button/Button" // On réutilise tes boutons standards
+import Button from "../Button/Button" 
 import { Edit2, Trash2 } from "lucide-react"
 
 const ItemCard = ({ 
@@ -14,7 +14,6 @@ const ItemCard = ({
 }) => {
     return (
         <div className={`item-card-container ${isCompleted ? "completed" : ""}`}>
-            {/* Partie Gauche : Checkbox pour To-Do OU Icône pour le reste */}
             <div className="item-card-leading">
                 {isTodo ? (
                     <input 
@@ -31,7 +30,7 @@ const ItemCard = ({
             {/* Partie Centrale : Le Texte */}
             <div className="item-card-content">
                 <span className="item-title">{title}</span>
-                {/* ✅ Affichage de la pastille de priorité */}
+                {/* Affichage de la pastille de priorité */}
                 {isTodo && priority && (
                     <span className={`priority-badge ${priority}`}>
                         {priority.toUpperCase()}

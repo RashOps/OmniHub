@@ -11,8 +11,8 @@
 }
 
 .item-card-container.completed {
-    opacity: 0.6; /* On réduit encore l'opacité pour le "sinking" */
-    filter: grayscale(1); /* On retire la couleur pour montrer l'inactivité */
+    opacity: 0.6; 
+    filter: grayscale(1); 
     background: rgba(255, 255, 255, 0.01);
     border-color: rgba(255, 255, 255, 0.1);
     transition: all 0.4s ease;
@@ -24,7 +24,7 @@
 }
 
 .item-card-container.completed .priority-badge {
-    display: none; /* Optionnel : masquer le badge de priorité si terminé */
+    display: none; 
 }
 
 .item-card-leading {
@@ -33,7 +33,6 @@
     align-items: center;
 }
 
-/* Style spécifique de ta checkbox To-Do */
 .item-checkbox {
     width: 20px;
     height: 20px;
@@ -42,7 +41,7 @@
 }
 
 .item-card-content {
-    flex: 1; /* Prend tout l'espace central */
+    flex: 1; 
     font-size: 1.1rem;
     color: white;
 }
@@ -57,7 +56,6 @@
     text-decoration: line-through;
 }
 
-/* Le bloc "Modifier | Supprimer" à droite */
 .action-group {
     display: flex;
     align-items: center;
@@ -90,7 +88,6 @@
     background: rgba(255, 255, 255, 0.6);
 }
 
-/* ✅ Style des pastilles de priorité */
 .priority-badge {
     font-size: 0.65rem;
     font-weight: 700;
@@ -121,7 +118,6 @@
     border-color: rgba(76, 175, 80, 0.4);
 }
 
-/* On aligne le badge avec le titre */
 .item-card-content {
     display: flex;
     align-items: center;
