@@ -13,7 +13,7 @@ const noteSchema = {
 }
 
 // Route GET : Récupérer toutes les notes
-router.get("/api/notes", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const data = await readFile(FILE_PATH)
         res.json(data)
@@ -24,7 +24,7 @@ router.get("/api/notes", async (req, res) => {
 });
 
 // Route POST : Créer une note
-router.post("/api/notes", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const schema = Joi.object({
             title: noteSchema.title.required(),
@@ -50,7 +50,7 @@ router.post("/api/notes", async (req, res) => {
 });
 
 // Route PUT : Update
-router.put("/api/notes/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
     try {
         const schema = Joi.object({
             title: noteSchema.title.optional(),
@@ -81,8 +81,17 @@ router.put("/api/notes/:id", async (req, res) => {
     }
 });
 
+router.delete("/clear/all", async (req, res) => {
+    try {
+        await writeFile(FILE_PATH, []);
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la suppression totale" });
+    }
+})
+
 // Route DELETE
-router.delete("/api/notes/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params
         const notes = await readFile(FILE_PATH)

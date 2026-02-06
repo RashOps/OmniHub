@@ -21,9 +21,9 @@ const contacts = require("./routes/contacts")
 const notes = require("./routes/notes")
 const todos = require("./routes/todos")
 
-app.use("/", contacts)
-app.use("/", notes)
-app.use("/", todos)
+app.use("/api/contacts", contacts)
+app.use("/api/notes", notes)
+app.use("/api/todos", todos)
 
 // Lancement du serveur
 app.listen(PORT, () => {console.log(`Serveur lancé sur http://localhost:${PORT}`)})

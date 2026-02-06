@@ -20,7 +20,7 @@ const priorityWeights = {
 };
 
 // Routes To-do
-router.get("/api/todos", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const data = await readFile(FILE_PATH)
         const sortedData = data.sort((a, b) => {
@@ -33,7 +33,7 @@ router.get("/api/todos", async (req, res) => {
     }
 })
 
-router.post("/api/todos", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const schema = Joi.object({
             task: todoSchema.task.required(),
@@ -61,7 +61,7 @@ router.post("/api/todos", async (req, res) => {
     }
 })
 
-router.put("/api/todos/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
     try {
         const schema = Joi.object({
             task: todoSchema.task.optional(),
@@ -93,7 +93,16 @@ router.put("/api/todos/:id", async (req, res) => {
     }
 })
 
-router.delete("/api/todos/:id", async (req, res) => {
+router.delete("/clear/all", async (req, res) => {
+    try {
+        await writeFile(FILE_PATH, []);
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la suppression totale" });
+    }
+})
+
+router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params
         const todos = await readFile(FILE_PATH)

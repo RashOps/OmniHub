@@ -15,7 +15,7 @@ const contactSchema = {
 }
 
 // Route Contact
-router.get("/api/contacts", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const data = await readFile(FILE_PATH)
         res.json(data)
@@ -24,7 +24,7 @@ router.get("/api/contacts", async (req, res) => {
     }
 })
 
-router.post("/api/contacts", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const schema = Joi.object({
             surname: contactSchema.surname.required(),
@@ -68,7 +68,7 @@ router.post("/api/contacts", async (req, res) => {
     }
 })
 
-router.put("/api/contacts/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
     try {
         const schema = Joi.object({
             surname: contactSchema.surname.optional(),
@@ -102,7 +102,7 @@ router.put("/api/contacts/:id", async (req, res) => {
     }
 })
 
-router.delete("/api/contacts/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params
         const contacts = await readFile(FILE_PATH)
