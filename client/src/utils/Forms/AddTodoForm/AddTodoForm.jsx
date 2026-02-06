@@ -22,6 +22,8 @@ const AddTodoForm = ({ onAdd, onCancel, initialData }) => {
                 type="text" 
                 name="task" 
                 placeholder="Tâche..." 
+                minLength={3}
+                maxLength={50}
                 required 
                 value={formData.task} 
                 onChange={(e) => setFormData({...formData, task: e.target.value})} 

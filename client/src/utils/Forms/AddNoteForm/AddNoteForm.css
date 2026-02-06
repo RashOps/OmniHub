@@ -50,6 +50,17 @@ textarea {
     resize: none;
 }
 
+.input-error {
+    border-color: #ff5252 !important; 
+    box-shadow: 0 0 5px rgba(255, 82, 82, 0.2);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(1);
+}
+
 @media (max-width: 600px) {
   .input-group {
     flex-direction: column;
