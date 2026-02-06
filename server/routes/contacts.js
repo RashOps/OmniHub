@@ -8,8 +8,8 @@ const FILE_PATH = "contacts.json"
 
 // Creation d'un schema reutilisable
 const contactSchema = {
-    surname: Joi.string().max(10).trim(),
-    firstname: Joi.string().max(10).trim(),
+    surname: Joi.string().max(50).trim(),
+    firstname: Joi.string().max(50).trim(),
     phonenumber: Joi.string().pattern(/^0[1-9][0-9]{8}$/).trim(),
     email: Joi.string().email().lowercase().trim()
 }
@@ -71,10 +71,10 @@ router.post("/api/contacts", async (req, res) => {
 router.put("/api/contacts/:id", async (req, res) => {
     try {
         const schema = Joi.object({
-            surname: contactSchemaParts.surname.optional(),
-            firstname: contactSchemaParts.firstname.optional(),
-            phonenumber: contactSchemaParts.phonenumber.optional(),
-            email: contactSchemaParts.email.optional()
+            surname: contactSchema.surname.optional(),
+            firstname: contactSchema.firstname.optional(),
+            phonenumber: contactSchema.phonenumber.optional(),
+            email: contactSchema.email.optional()
         }).min(1)
 
         const { error, value } = schema.validate(req.body)
@@ -97,6 +97,7 @@ router.put("/api/contacts/:id", async (req, res) => {
         res.json(contacts[index])
 
     } catch (error) {
+        console.error(error)
         res.status(500).json({ message: "Erreur lors de la mise à jour" });
     }
 })

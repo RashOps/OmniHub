@@ -8,7 +8,7 @@ const FILE_PATH = "notes.json"
 
 // Creation d'un schema reutilisable
 const noteSchema = {
-    title: Joi.string().min(5).max(20).trim(),
+    title: Joi.string().min(5).max(50).trim(),
     content: Joi.string().max(500).trim()
 }
 
