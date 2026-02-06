@@ -1,7 +1,6 @@
 # Dependencies
 node_modules/
 client/node_modules/
-client/public/
 server/node_modules/
 
 # Env files
