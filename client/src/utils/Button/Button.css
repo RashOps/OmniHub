@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* Espace entre l'icône et le texte */
+  gap: 8px; 
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -16,20 +16,18 @@
   outline: none;
 }
 
-/* Effet au survol global */
 .custom-btn:hover {
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.6);
   transform: translateY(-1px);
 }
 
-/* Variantes spécifiques */
 .btn-primary {
-  border-color: rgba(97, 218, 251, 0.5); /* Bleu React */
+  border-color: rgba(97, 218, 251, 0.5); 
 }
 
 .btn-danger {
-  border-color: rgba(255, 82, 82, 0.5); /* Rouge pour Supprimer */
+  border-color: rgba(255, 82, 82, 0.5); 
 }
 
 .btn-danger:hover {
