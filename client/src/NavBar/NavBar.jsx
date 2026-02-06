@@ -8,7 +8,7 @@ const NavBar = () => {
     // Effet pour mettre à jour l'heure chaque seconde
     useEffect(() => {
         const timer = setInterval(() => setTime(new Date()), 1000)
-        return () => clearInterval(timer) // Nettoyage pour éviter les fuites de mémoire
+        return () => clearInterval(timer)
     }, [])
 
     return (

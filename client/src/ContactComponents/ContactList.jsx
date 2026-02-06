@@ -11,7 +11,7 @@ const ContactList = ({ items, onSearch, onAddClick, onEdit, onDelete }) => {
             
             <div className="list-header">
                 <span>Liste de contacts</span>
-                {/* Bouton pour ouvrir la modale d'ajout [cite: 5, 11] */}
+                {/* Bouton pour ouvrir la modale d'ajout */}
                 <Button label="Ajouter un contact" variant="neutral" Icon={Plus} action={onAddClick} />
             </div>
 
