@@ -6,16 +6,15 @@
     margin-bottom: 30px;
 }
 
-/* Le champ de texte style "Outlined" */
 .quick-add-input {
-    flex: 1; /* Prend tout l'espace restant */
+    flex: 1; 
     background: transparent;
     border: 1.5px solid rgba(255, 255, 255, 0.4);
     border-radius: 18px;
     padding: 0 25px;
     color: white;
     font-size: 1.2rem;
-    font-style: italic; /* Pour correspondre à ton écriture sur l'image */
+    font-style: italic; 
     outline: none;
     transition: border-color 0.3s;
 }
@@ -36,32 +35,31 @@
 .quick-add-buttons .custom-btn {
     padding: 6px 12px;
     font-size: 0.85rem;
-    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    white-space: nowrap; 
 }
 
-/* --- Responsive : Boutons en dessous --- */
+/* Responsive : Boutons en dessous */
 @media (max-width: 600px) {
     .quick-add-wrapper {
-        flex-direction: column; /* On empile verticalement */
+        flex-direction: column; 
         align-items: stretch;
         gap: 12px;
     }
 
     .quick-add-input {
-        width: 100% !important; /* L'input prend toute la largeur */
-        height: 50px; /* On lui donne un peu plus de présence */
+        width: 100% !important; 
+        height: 50px;
         padding: 15px 20px;
         font-size: 1rem;
     }
 
     .quick-add-buttons {
-        flex-direction: row; /* Les deux boutons restent côte à côte sous l'input */
+        flex-direction: row; 
         justify-content: space-between;
         gap: 10px;
         width: 100%;
     }
 
-    /* On force les boutons à occuper 50% de la largeur chacun */
     .quick-add-buttons .custom-btn {
         flex: 1; 
         padding: 10px 5px;

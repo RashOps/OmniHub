@@ -6,10 +6,10 @@ const ToDoList = ({ items, onSearch, onAdd, onDeleteAll, onToggle, onEdit, onDel
     return (
         <div className="todo-list-container">
             <h2>To - Do</h2>
-            {/* Barre de recherche spécifique aux tâches [cite: 4, 20] */}
+            {/* Barre de recherche spécifique aux tâches */}
             <SearchBar placeholder="Rechercher une tâche..." onSearchChange={onSearch} />
             
-            {/* Bloc de saisie rapide [cite: 5, 6] */}
+            {/* Bloc de saisie rapide */}
             <AddTodoQuick onAdd={onAdd} onDeleteAll={onDeleteAll} />
 
             {/* Boucle de rendu des éléments  */}
